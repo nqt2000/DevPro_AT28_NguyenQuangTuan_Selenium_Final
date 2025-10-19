@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Demo QA" parallel="false">
+    <!-- Khối test -->
+    <test name="Demo">
+        <classes>
+            <class name="testcases.FlowToElementTestCase"></class>
+        </classes>
+    </test>
+</suite>
