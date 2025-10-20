@@ -2,6 +2,7 @@ package testcases;
 
 import actions.HomePageAction;
 import actions.common.BaseTest;
+import actions.elements.CheckBoxPageAction;
 import actions.elements.MenuLeftAction;
 import actions.elements.TextboxPageAction;
 import org.openqa.selenium.WebDriver;
@@ -53,5 +54,41 @@ public class FlowToElementTestCase extends BaseTest {
         textboxPageAction.clickSubmitButton();
         textboxPageAction.verifyEmailBorderIsRed();
         textboxPageAction.verifyOutputNotDisplayedOrEmailMissing();
+    }
+
+    @Test(priority = 3)
+    public void DQ_CB_001() throws InterruptedException {
+        HomePageAction homePageAction = new HomePageAction(driver);
+        homePageAction.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
+        menuLeftAction.clickOnMenuLeft("Check Box");
+
+        CheckBoxPageAction checkBoxPage = new CheckBoxPageAction(driver);
+
+        checkBoxPage.expandAllNodes();
+        checkBoxPage.tickCheckboxByLabel("Desktop");
+        checkBoxPage.verifyOutputContainsNode("desktop");
+    }
+
+    @Test(priority = 4)
+    public void DQ_CB_002() throws InterruptedException {
+        HomePageAction homePageAction = new HomePageAction(driver);
+        homePageAction.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
+        menuLeftAction.clickOnMenuLeft("Check Box");
+
+        CheckBoxPageAction checkBoxPage = new CheckBoxPageAction(driver);
+
+        checkBoxPage.expandAllNodes();
+        checkBoxPage.tickCheckboxByLabel("Home");
+
+        checkBoxPage.verifyAllNodesAreSelected(
+                "home", "desktop", "notes", "commands",
+                "documents", "workspace", "react", "angular", "veu",
+                "office", "public", "private", "classified", "general",
+                "downloads", "wordFile", "excelFile"
+        );
     }
 }
