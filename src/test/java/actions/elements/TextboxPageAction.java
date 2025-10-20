@@ -13,26 +13,21 @@ public class TextboxPageAction extends BasePage {
     }
 
     public void inputTextBoxes(String fullName, String email, String currentAddress, String permanentAddress) throws InterruptedException {
-        highLightElement(driver, TextBoxPageInterface.FULL_NAME_INPUT, fullName);
         enterTextToElement(driver, TextBoxPageInterface.FULL_NAME_INPUT, fullName);
         Thread.sleep(2000);
 
-        highLightElement(driver, TextBoxPageInterface.EMAIL_INPUT, email);
         enterTextToElement(driver, TextBoxPageInterface.EMAIL_INPUT, email);
         Thread.sleep(2000);
 
-        highLightElement(driver, TextBoxPageInterface.CURRENT_ADDRESS_TEXTAREA, currentAddress);
         enterTextToElement(driver, TextBoxPageInterface.CURRENT_ADDRESS_TEXTAREA, currentAddress);
         Thread.sleep(2000);
 
-        highLightElement(driver, TextBoxPageInterface.PERMANENT_ADDRESS_TEXTAREA, permanentAddress);
         enterTextToElement(driver, TextBoxPageInterface.PERMANENT_ADDRESS_TEXTAREA, permanentAddress);
         Thread.sleep(2000);
     }
 
     public void clickSubmitButton() throws InterruptedException {
         scrollToElement(driver, TextBoxPageInterface.SUBMIT_BUTTON);
-        highLightElement(driver, TextBoxPageInterface.SUBMIT_BUTTON, "Submit");
         clickToElement(driver, TextBoxPageInterface.SUBMIT_BUTTON);
         Thread.sleep(5000);
     }
