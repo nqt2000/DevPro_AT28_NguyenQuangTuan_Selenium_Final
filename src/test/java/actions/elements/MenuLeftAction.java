@@ -5,7 +5,7 @@ import interfaces.CommonInterface;
 import org.openqa.selenium.WebDriver;
 
 public class MenuLeftAction extends BasePage {
-    WebDriver driver;
+    private final WebDriver driver;
 
     public MenuLeftAction(WebDriver driver) {
         this.driver = driver;

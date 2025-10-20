@@ -4,6 +4,7 @@ import actions.HomePageAction;
 import actions.common.BaseTest;
 import actions.elements.CheckBoxPageAction;
 import actions.elements.MenuLeftAction;
+import actions.elements.RadioButtonPageAction;
 import actions.elements.TextboxPageAction;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
@@ -90,5 +91,20 @@ public class FlowToElementTestCase extends BaseTest {
                 "office", "public", "private", "classified", "general",
                 "downloads", "wordFile", "excelFile"
         );
+    }
+
+    @Test(priority = 5)
+    public void DQ_RB_001() throws InterruptedException {
+        HomePageAction homePageAction = new HomePageAction(driver);
+        homePageAction.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
+        menuLeftAction.clickOnMenuLeft("Radio Button");
+
+        RadioButtonPageAction radioPage = new RadioButtonPageAction(driver);
+
+        radioPage.selectRadioByLabel("Yes");
+
+        radioPage.verifySelectedText("Yes");
     }
 }

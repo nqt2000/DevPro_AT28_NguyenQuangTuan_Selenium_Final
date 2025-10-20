@@ -10,7 +10,7 @@ import org.testng.Assert;
 import java.util.List;
 
 public class CheckBoxPageAction extends BasePage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public CheckBoxPageAction(WebDriver driver) {
         this.driver = driver;
