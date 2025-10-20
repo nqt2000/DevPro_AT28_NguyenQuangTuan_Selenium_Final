@@ -16,25 +16,42 @@ public class FlowToElementTestCase extends BaseTest {
         driver = getBrowserDriver("chrome", "https://demoqa.com/");
     }
 
-    @Test
-    public void flowToElement() throws InterruptedException {
+    @Test(priority = 1, description = "DQ-TB-001")
+    public void DQ_TB_001() throws InterruptedException {
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
         menuLeftAction.clickOnMenuLeft("Text Box");
         Thread.sleep(3000);
-        TextboxPageAction  textboxPageAction = new TextboxPageAction(driver);
+        TextboxPageAction textboxPageAction = new TextboxPageAction(driver);
 
-        // Input
         String name = "Nguyen Van A";
         String email = "user@example.com";
         String currentAddr = "12 Nguyen Trai, HN";
         String permanentAddr = "34 Le Loi, HCM";
 
-        textboxPageAction.inputTextBoxes(name,email,currentAddr,permanentAddr);
+        textboxPageAction.inputTextBoxes(name, email, currentAddr, permanentAddr);
         textboxPageAction.clickSubmitButton();
-        textboxPageAction.verifyOutput(name,email,currentAddr,permanentAddr);
+        textboxPageAction.verifyOutput(name, email, currentAddr, permanentAddr);
     }
 
+    @Test(priority = 2, description = "DQ_TB_002")
+    public void DQ_TB_002() throws InterruptedException {
+        HomePageAction homePageAction = new HomePageAction(driver);
+        homePageAction.clickOnMenu("Elements");
+        MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
+        menuLeftAction.clickOnMenuLeft("Text Box");
+        Thread.sleep(3000);
+        TextboxPageAction textboxPageAction = new TextboxPageAction(driver);
 
+        String name = "Nguyen Van A";
+        String email = "user@";
+        String currentAddr = "12 Nguyen Trai, HN";
+        String permanentAddr = "34 Le Loi, HCM";
+
+        textboxPageAction.inputTextBoxes(name, email, currentAddr, permanentAddr);
+        textboxPageAction.clickSubmitButton();
+        textboxPageAction.verifyEmailBorderIsRed();
+        textboxPageAction.verifyOutputNotDisplayedOrEmailMissing();
+    }
 }

@@ -499,4 +499,13 @@ public class BasePage {
         WebElement el = getDynamicElement(driver, xpath, params);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'});", el);
     }
+
+    // 71. isElementDisplayed - Check phần tử hiển thị
+    public boolean isElementDisplayed(WebDriver driver, String xpath) {
+        try {
+            return getElement(driver, xpath).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

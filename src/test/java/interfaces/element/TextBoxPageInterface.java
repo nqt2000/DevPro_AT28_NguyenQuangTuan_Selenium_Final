@@ -8,6 +8,7 @@ public class TextBoxPageInterface {
     public static final String SUBMIT_BUTTON = "//button[@id='submit']";
 
     // Output area locators
+    public static final String OUTPUT_SECTION = "//div[@id='output']";
     public static final String OUTPUT_NAME = "//p[@id='name']";
     public static final String OUTPUT_EMAIL = "//p[@id='email']";
     public static final String OUTPUT_CURRENT_ADDRESS = "//p[@id='currentAddress']";

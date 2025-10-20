@@ -2,7 +2,9 @@ package actions.elements;
 
 import actions.common.BasePage;
 import interfaces.element.TextBoxPageInterface;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class TextboxPageAction extends BasePage {
@@ -33,6 +35,9 @@ public class TextboxPageAction extends BasePage {
     }
 
     public void verifyOutput(String expectedName, String expectedEmail, String expectedCurrentAddr, String expectedPermanentAddr) {
+        waitForElementIsVisible(driver, TextBoxPageInterface.OUTPUT_SECTION);
+
+
         String actualName = getTextElement(driver, TextBoxPageInterface.OUTPUT_NAME).replace("Name:", "").trim();
         String actualEmail = getTextElement(driver, TextBoxPageInterface.OUTPUT_EMAIL).replace("Email:", "").trim();
         String actualCurrent = getTextElement(driver, TextBoxPageInterface.OUTPUT_CURRENT_ADDRESS).replace("Current Address :", "").trim();
@@ -43,5 +48,25 @@ public class TextboxPageAction extends BasePage {
         Assert.assertEquals(actualEmail, expectedEmail, "❌ Email không đúng!");
         Assert.assertEquals(actualCurrent, expectedCurrentAddr, "❌ Current Address không đúng!");
         Assert.assertEquals(actualPermanent, expectedPermanentAddr, "❌ Permanent Address không đúng!");
+    }
+
+    public void verifyEmailBorderIsRed() {
+        WebElement emailInput = driver.findElement(By.xpath((TextBoxPageInterface.EMAIL_INPUT)));
+        scrollToElement(driver, TextBoxPageInterface.EMAIL_INPUT);
+        String borderColor = emailInput.getCssValue("border-color");
+        System.out.println("Email border color: " + borderColor);
+        Assert.assertTrue(borderColor.contains("255, 0, 0"),
+                "❌ Border email không có màu đỏ như mong đợi!");
+    }
+
+    public void verifyOutputNotDisplayedOrEmailMissing() {
+        boolean isOutputVisible = isElementDisplayed(driver, TextBoxPageInterface.OUTPUT_SECTION);
+
+        if (!isOutputVisible) {
+            System.out.println("✅ Output section không hiển thị — PASSED");
+        } else {
+            boolean emailLineVisible = isElementDisplayed(driver, TextBoxPageInterface.OUTPUT_EMAIL);
+            Assert.assertFalse(emailLineVisible, "❌ Output hiển thị dòng Email dù email không hợp lệ!");
+        }
     }
 }
