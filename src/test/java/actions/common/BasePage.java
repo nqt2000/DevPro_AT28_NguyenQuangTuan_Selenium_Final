@@ -488,6 +488,15 @@ public class BasePage {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getElement(driver, xpath));
     }
 
-    // 69. scrollIntoView
-    public void scrollIntoView(WebDriver driver, String xpath) {}
+    // 69. scrollIntoView - Cuộn đến phần tử (cố định).
+    public void scrollIntoView(WebDriver driver, String xpath) {
+        WebElement el = getElement(driver, xpath);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'});", el);
+    }
+
+    // 70. scrollIntoView (params) - Cuộn đến phần tử (động).
+    public void scrollIntoView(WebDriver driver, String xpath, String... params) {
+        WebElement el = getDynamicElement(driver, xpath, params);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'});", el);
+    }
 }
