@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class BasePage {
@@ -160,14 +161,14 @@ public class BasePage {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", el);
     }
 
-    // 21. sleepInSecond - Tạm dừng theo thời gian giây.
-    public void sleepInSecond(long time) {
-        try {
-            Thread.sleep(time * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    // 21. sleepInSecond - Tạm dừng theo thời gian giây.
+//    public void sleepInSecond(long time) {
+//        try {
+//            Thread.sleep(time * 1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     // ============================
     // 4. Hover / Mouse actions
@@ -270,21 +271,29 @@ public class BasePage {
 
     // 37. isDisplayElement - Kiểm tra phần tử có hiển thị không.
     public boolean isDisplayElement(WebDriver driver, String xpath) {
-        return getElement(driver, xpath).isDisplayed();
+        waitForElementIsVisible(driver, xpath);
+        try {
+            return getElement(driver, xpath).isDisplayed();
+        } catch (StaleElementReferenceException e) {
+            return false;
+        }
     }
 
     // 38. isDisplayElement (params) - Kiểm tra phần tử động có hiển thị không.
     public boolean isDisplayElement(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         return getDynamicElement(driver, xpath, params).isDisplayed();
     }
 
     // 39. isDisplayElements - Kiểm tra danh sách phần tử có hiển thị không.
     public boolean isDisplayElements(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         return !getElements(driver, xpath).isEmpty();
     }
 
     // 40. isDisplayElements (params) - Kiểm tra danh sách phần tử động hiển thị không.
     public boolean isDisplayElements(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         return !getElements(driver, xpath, params).isEmpty();
     }
 
@@ -379,7 +388,7 @@ public class BasePage {
         Set<String> allWindows = driver.getWindowHandles();
         for (String id : allWindows) {
             driver.switchTo().window(id);
-            if (driver.getTitle().equals(title)) {
+            if (Objects.equals(driver.getTitle(), title)) {
                 break;
             }
         }
@@ -403,36 +412,42 @@ public class BasePage {
 
     // 56. selectItemInDefaultDropdown - Chọn item trong dropdown mặc định.
     public void selectItemInDefaultDropdown(WebDriver driver, String xpath, String itemText) {
+        waitForElementIsVisible(driver, xpath);
         select = new Select(getElement(driver, xpath));
         select.selectByVisibleText(itemText);
     }
 
     // 57. selectItemInDefaultDropdown (params) - Chọn item dropdown động.
     public void selectItemInDefaultDropdown(WebDriver driver, String xpath, String itemText, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         select = new Select(getDynamicElement(driver, xpath, params));
         select.selectByVisibleText(itemText);
     }
 
     // 58. getFirstSelectedTextItem - Lấy text item được chọn đầu tiên.
     public String getFirstSelectedTextItem(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         select = new Select(getElement(driver, xpath));
         return select.getFirstSelectedOption().getText();
     }
 
     // 59. getFirstSelectedTextItem (params) - Lấy text item được chọn đầu tiên (động).
     public String getFirstSelectedTextItem(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         select = new Select(getDynamicElement(driver, xpath, params));
         return select.getFirstSelectedOption().getText();
     }
 
     // 60. isDropdownMultiple - Kiểm tra dropdown có multiple không.
     public boolean isDropdownMultiple(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         select = new Select(getElement(driver, xpath));
         return select.isMultiple();
     }
 
     // 61. isDropdownMultiple (params) - Kiểm tra dropdown động có multiple không.
     public boolean isDropdownMultiple(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         select = new Select(getDynamicElement(driver, xpath, params));
         return select.isMultiple();
     }
@@ -443,43 +458,49 @@ public class BasePage {
 
     // 62. checkToCheckboxOrRadio - Tích chọn checkbox/radio nếu chưa chọn.
     public void checkToCheckboxOrRadio(WebDriver driver, String xpath) {
-        WebElement el = getElement(driver, xpath);
-        if (!el.isSelected()) {
-            el.click();
+        waitForElementIsVisible(driver, xpath);
+        element = getElement(driver, xpath);
+        if (!element.isSelected()) {
+            element.click();
         }
     }
 
     // 63. checkToCheckboxOrRadio (params) - Tích chọn checkbox/radio động.
     public void checkToCheckboxOrRadio(WebDriver driver, String xpath, String... params) {
-        WebElement el = getDynamicElement(driver, xpath, params);
-        if (!el.isSelected()) {
-            el.click();
+        waitForElementIsVisible(driver, xpath, params);
+        element = getDynamicElement(driver, xpath, params);
+        if (!element.isSelected()) {
+            element.click();
         }
     }
 
     // 64. unCheckToCheckbox - Bỏ chọn checkbox nếu đang chọn.
     public void unCheckToCheckbox(WebDriver driver, String xpath) {
-        WebElement el = getElement(driver, xpath);
-        if (el.isSelected()) {
-            el.click();
+        waitForElementIsVisible(driver, xpath);
+        element = getElement(driver, xpath);
+        if (element.isSelected()) {
+            element.click();
         }
     }
 
     // 65. unCheckToCheckbox (params) - Bỏ chọn checkbox động.
     public void unCheckToCheckbox(WebDriver driver, String xpath, String... params) {
-        WebElement el = getDynamicElement(driver, xpath, params);
-        if (el.isSelected()) {
-            el.click();
+        waitForElementIsVisible(driver, xpath, params);
+        element = getDynamicElement(driver, xpath, params);
+        if (element.isSelected()) {
+            element.click();
         }
     }
 
     // 66. isElementSelected - Kiểm tra checkbox/radio có được chọn không.
     public boolean isElementSelected(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         return getElement(driver, xpath).isSelected();
     }
 
     // 67. isElementSelected (params) - Kiểm tra checkbox/radio động có được chọn không.
     public boolean isElementSelected(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         return getDynamicElement(driver, xpath, params).isSelected();
     }
 
@@ -500,12 +521,5 @@ public class BasePage {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'});", el);
     }
 
-    // 71. isElementDisplayed - Check phần tử hiển thị
-    public boolean isElementDisplayed(WebDriver driver, String xpath) {
-        try {
-            return getElement(driver, xpath).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
+    // 71. switchToDefaultContent
 }

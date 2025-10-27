@@ -34,7 +34,7 @@ public class TextboxPageAction extends BasePage {
         Thread.sleep(5000);
     }
 
-    public void verifyOutput(String expectedName, String expectedEmail, String expectedCurrentAddr, String expectedPermanentAddr) {
+    public String verifyOutput(String expectedName, String expectedEmail, String expectedCurrentAddr, String expectedPermanentAddr) {
         waitForElementIsVisible(driver, TextBoxPageInterface.OUTPUT_SECTION);
 
 
@@ -43,11 +43,12 @@ public class TextboxPageAction extends BasePage {
         String actualCurrent = getTextElement(driver, TextBoxPageInterface.OUTPUT_CURRENT_ADDRESS).replace("Current Address :", "").trim();
         String actualPermanent = getTextElement(driver, TextBoxPageInterface.OUTPUT_PERMANENT_ADDRESS).replace("Permananet Address :", "").trim();
 
-        Assert.assertEquals(actualName, expectedName, "❌ Name không đúng!");
+        Assert.assertEquals(actualName, expectedName, "Nguyen Van A");
         Assert.assertTrue(actualEmail.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$"), "❌ Email không đúng định dạng!");
         Assert.assertEquals(actualEmail, expectedEmail, "❌ Email không đúng!");
         Assert.assertEquals(actualCurrent, expectedCurrentAddr, "❌ Current Address không đúng!");
         Assert.assertEquals(actualPermanent, expectedPermanentAddr, "❌ Permanent Address không đúng!");
+        return actualName;
     }
 
     public void verifyEmailBorderIsRed() {
@@ -60,12 +61,12 @@ public class TextboxPageAction extends BasePage {
     }
 
     public void verifyOutputNotDisplayedOrEmailMissing() {
-        boolean isOutputVisible = isElementDisplayed(driver, TextBoxPageInterface.OUTPUT_SECTION);
+        boolean isOutputVisible = isDisplayElement(driver, TextBoxPageInterface.OUTPUT_SECTION);
 
         if (!isOutputVisible) {
             System.out.println("✅ Output section không hiển thị — PASSED");
         } else {
-            boolean emailLineVisible = isElementDisplayed(driver, TextBoxPageInterface.OUTPUT_EMAIL);
+            boolean emailLineVisible = isDisplayElement(driver, TextBoxPageInterface.OUTPUT_EMAIL);
             Assert.assertFalse(emailLineVisible, "❌ Output hiển thị dòng Email dù email không hợp lệ!");
         }
     }

@@ -1,9 +1,23 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Demo QA" parallel="false">
+
+    <!-- NHÓM phải đứng đầu nếu có -->
+<!--    <groups>-->
+<!--        <run>-->
+<!--            <include name="smoke"/>-->
+<!--        </run>-->
+<!--    </groups>-->
+
+    <!-- Listener -->
+    <listeners>
+        <listener class-name="reports.TestListener"/>
+    </listeners>
+
     <!-- Khối test -->
     <test name="Demo">
         <classes>
-            <class name="testcases.FlowToElementTestCase"></class>
+            <class name="testcases.FlowToElementTestCase"/>
         </classes>
     </test>
+
 </suite>

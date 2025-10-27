@@ -1,11 +1,13 @@
 package testcases;
 
 import actions.HomePageAction;
+import actions.common.AssertUtils;
 import actions.common.BaseTest;
 import actions.elements.CheckBoxPageAction;
 import actions.elements.MenuLeftAction;
 import actions.elements.RadioButtonPageAction;
 import actions.elements.TextboxPageAction;
+import common.Log;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,10 +22,13 @@ public class FlowToElementTestCase extends BaseTest {
 
     @Test(priority = 1, description = "DQ-TB-001")
     public void DQ_TB_001() throws InterruptedException {
+        Log.info("Step 1: Click Menu Elements on HomePage");
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
+        Log.info("Step 2: Click Left Menu elements on ElementPage");
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
         menuLeftAction.clickOnMenuLeft("Text Box");
+        Log.info("Step 3: Click Textbox elements on TextboxPage and input full name, email, current address and permanent address");
         Thread.sleep(3000);
         TextboxPageAction textboxPageAction = new TextboxPageAction(driver);
 
@@ -33,7 +38,10 @@ public class FlowToElementTestCase extends BaseTest {
         String permanentAddr = "34 Le Loi, HCM";
 
         textboxPageAction.inputTextBoxes(name, email, currentAddr, permanentAddr);
+        Log.info("Step 4: Click Submit Button");
         textboxPageAction.clickSubmitButton();
+
+        AssertUtils.assertEquals(textboxPageAction.verifyOutput("String", "a", "a", "a"), "result");
         textboxPageAction.verifyOutput(name, email, currentAddr, permanentAddr);
     }
 
