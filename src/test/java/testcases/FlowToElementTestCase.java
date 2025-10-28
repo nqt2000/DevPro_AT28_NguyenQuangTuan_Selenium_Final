@@ -263,4 +263,51 @@ public class FlowToElementTestCase extends BaseTest {
         Log.info("Step 3: Verify alert handled successfully");
         AssertUtils.assertTrue(true, "Alert không được xử lý đúng.");
     }
+
+    @Test(priority = 15, description = "DQ-FM-001 - Điền form hợp lệ tối thiểu và submit, verify modal hiển thị")
+    public void DQ_FM_001() throws InterruptedException {
+        Log.info("Step 1: Vào menu Forms > Practice Form");
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Forms");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Practice Form");
+
+        PracticeFormPageAction formPage = new PracticeFormPageAction(driver);
+        Log.info("Step 2: Điền thông tin hợp lệ");
+        formPage.fillForm("Minh", "Le", "minh@example.com", "Male", "0987654321");
+
+        Log.info("Step 3: Submit form");
+        formPage.clickSubmit();
+
+        Log.info("Step 4: Verify modal hiển thị và có dữ liệu nhập vào");
+        AssertUtils.assertTrue(formPage.isModalDisplayed(), "❌ Modal không hiển thị sau khi submit!");
+        AssertUtils.assertContains(formPage.getModalText(), "Minh", "❌ Modal không chứa tên đã nhập!");
+        AssertUtils.assertContains(formPage.getModalText(), "minh@example.com", "❌ Modal không chứa email!");
+    }
+
+    @Test(priority = 16, description = "DQ-DPICK-001 - Chọn ngày đầu tháng và cuối tháng (BVA)")
+    public void DQ_DPICK_001() throws InterruptedException {
+        Log.info("Step 1: Vào menu Widgets > Date Picker");
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Widgets");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Date Picker");
+
+        DatePickerPageAction datePicker = new DatePickerPageAction(driver);
+        Log.info("Step 2: Chọn ngày đầu tháng");
+        datePicker.selectDay(1);
+        String firstDate = datePicker.getSelectedDate();
+        Log.info("Ngày đầu tháng: " + firstDate);
+
+        Log.info("Step 3: Chọn ngày cuối tháng (nếu có)");
+        datePicker.selectDay(31);
+        String lastDate = datePicker.getSelectedDate();
+        Log.info("Ngày cuối tháng: " + lastDate);
+
+        Log.info("Step 4: Verify giá trị cập nhật chính xác");
+        AssertUtils.assertNotEquals(firstDate, lastDate, "❌ Ngày không thay đổi khi chọn lại!");
+    }
+
 }

@@ -62,4 +62,16 @@ public class StringUtils {
         if (isNullOrEmpty(input)) return false;
         return input.matches(".*\\d.*");
     }
+
+    // 11. So sánh 2 chuỗi bỏ dấu và không phân biệt hoa thường
+    public static boolean equalsIgnoreCaseAndAccent(String s1, String s2) {
+        if (isNullOrEmpty(s1) || isNullOrEmpty(s2)) return false;
+        return normalizeKeyword(s1).equals(normalizeKeyword(s2));
+    }
+
+    public static boolean containsIgnoreCase(String source, String target) {
+        if (isNullOrEmpty(source) || isNullOrEmpty(target)) return false;
+        return source.toLowerCase().contains(target.toLowerCase());
+    }
+
 }

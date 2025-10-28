@@ -4,7 +4,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-    public class DateTimeUtils {
+public class DateTimeUtils {
 
     // 1. Lấy thời gian hiện tại theo định dạng mặc định (yyyy-MM-dd HH:mm:ss)
     public static String getCurrentDateTime() {
@@ -65,4 +65,17 @@ import java.time.format.DateTimeParseException;
             return false;
         }
     }
+
+    // 11. Lấy chuỗi định dạng gọn cho log hoặc đặt tên file (VD: 2025_10_28_21_45_30)
+    public static String getLogTimestamp() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"));
+    }
+
+    // 12. So sánh 2 thời điểm (dạng chuỗi theo pattern)
+    public static boolean isBefore(String datetime1, String datetime2, String pattern) {
+        LocalDateTime dt1 = parseDateTime(datetime1, pattern);
+        LocalDateTime dt2 = parseDateTime(datetime2, pattern);
+        return dt1.isBefore(dt2);
+    }
+
 }
