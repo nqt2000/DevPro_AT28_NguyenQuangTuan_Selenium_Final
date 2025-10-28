@@ -31,4 +31,8 @@ public class WebTablesPageAction extends BasePage {
         waitForElementVisible(driver, rowsXpath);
         return getListWebElements(driver, rowsXpath);
     }
+
+    public boolean isEditFormDisplayed() {
+        return isElementDisplayed(driver, WebTablesInterface.EDIT_FORM_TITLE);
+    }
 }

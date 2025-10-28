@@ -16,4 +16,7 @@ public class WebTablesInterface {
 
     // All rows following after a given Age row
     public static final String FOLLOWING_ROWS_AFTER_AGE = ROW_BY_AGE + "/following-sibling::div";
+
+    // Form Edit title (for verification)
+    public static final String EDIT_FORM_TITLE = "//div[text()='Registration Form']";
 }

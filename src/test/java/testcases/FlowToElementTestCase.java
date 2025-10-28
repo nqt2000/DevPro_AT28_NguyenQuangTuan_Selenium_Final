@@ -147,10 +147,7 @@ public class FlowToElementTestCase extends BaseTest {
 
         Log.info("Step 2: Verify form Edit mở ra");
         Thread.sleep(1000);
-        AssertUtils.assertTrue(
-                webTables.isElementDisplayed(driver, "//div[text()='Registration Form']"),
-                "Form Edit không hiển thị!"
-        );
+        AssertUtils.assertTrue(webTables.isEditFormDisplayed(), "Form Edit không hiển thị!");
     }
 
     @Test(priority = 9, description = "DQ-WT-003 - Get following rows after Age=39")

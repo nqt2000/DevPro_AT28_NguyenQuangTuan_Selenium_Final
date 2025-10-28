@@ -40,30 +40,25 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentTestManager.getTest().log(Status.PASS, "Test passed");
         ExtentTest test = ExtentTestManager.getTest();
-        test.log(Status.PASS, "Test Passed");
-
-        test.fail(result.getThrowable());
-        String base64 = ((TakesScreenshot) BaseTest.getDriver()).getScreenshotAs(OutputType.BASE64);
-        test.fail("Screenshot on failure",
-                com.aventstack.extentreports.MediaEntityBuilder
-                        .createScreenCaptureFromBase64String(base64, result.getMethod().getMethodName())
-                        .build()
-        );
+        test.log(Status.PASS, "Test passed: " + result.getMethod().getMethodName());
         ExtentTestManager.remove();
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         ExtentTest test = ExtentTestManager.getTest();
+        test.log(Status.FAIL, "Test failed: " + result.getMethod().getMethodName());
         test.fail(result.getThrowable());
-            String base64 = ((TakesScreenshot) BaseTest.getDriver()).getScreenshotAs(OutputType.BASE64);
-            test.fail("Screenshot on failure",
-                    com.aventstack.extentreports.MediaEntityBuilder
-                            .createScreenCaptureFromBase64String(base64, result.getMethod().getMethodName())
-                            .build()
-            );
+
+        // Chụp screenshot khi test fail
+        String base64 = ((TakesScreenshot) BaseTest.getDriver()).getScreenshotAs(OutputType.BASE64);
+        test.fail("Screenshot on failure",
+                com.aventstack.extentreports.MediaEntityBuilder
+                        .createScreenCaptureFromBase64String(base64, result.getMethod().getMethodName())
+                        .build()
+        );
+
         ExtentTestManager.remove();
     }
 
