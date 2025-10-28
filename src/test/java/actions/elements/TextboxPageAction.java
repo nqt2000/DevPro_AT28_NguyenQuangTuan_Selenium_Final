@@ -61,12 +61,13 @@ public class TextboxPageAction extends BasePage {
     }
 
     public void verifyOutputNotDisplayedOrEmailMissing() {
-        boolean isOutputVisible = isDisplayElement(driver, TextBoxPageInterface.OUTPUT_SECTION);
+        // Dùng isElementPresent thay vì isDisplayElement (để không wait)
+        boolean isOutputVisible = isElementPresent(driver, TextBoxPageInterface.OUTPUT_SECTION);
 
         if (!isOutputVisible) {
             System.out.println("✅ Output section không hiển thị — PASSED");
         } else {
-            boolean emailLineVisible = isDisplayElement(driver, TextBoxPageInterface.OUTPUT_EMAIL);
+            boolean emailLineVisible = isElementPresent(driver, TextBoxPageInterface.OUTPUT_EMAIL);
             Assert.assertFalse(emailLineVisible, "❌ Output hiển thị dòng Email dù email không hợp lệ!");
         }
     }

@@ -2,7 +2,9 @@ package actions.elements;
 
 import actions.common.BasePage;
 import interfaces.element.RadioButtonInterface;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class RadioButtonPageAction extends BasePage {
@@ -25,5 +27,11 @@ public class RadioButtonPageAction extends BasePage {
         System.out.println("Output hiển thị: " + actualText);
         Assert.assertEquals(actualText.trim(), expectedText.trim(),
                 "❌ Kết quả hiển thị không đúng!");
+    }
+
+    public boolean isRadioDisabled(String label) {
+        String xpath = String.format(RadioButtonInterface.RADIO_INPUT_BY_LABEL, label);
+        WebElement input = driver.findElement(By.xpath(xpath));
+        return !input.isEnabled();
     }
 }

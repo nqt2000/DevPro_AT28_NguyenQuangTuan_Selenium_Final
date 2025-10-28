@@ -137,6 +137,27 @@ public class BasePage {
         wait.until(ExpectedConditions.visibilityOf(getDynamicElement(driver, xpath, params)));
     }
 
+    // 16.1. waitForAllElementsVisible - Chờ tất cả phần tử hiển thị
+    public void waitForAllElementsVisible(WebDriver driver, String xpath) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(getXpath(xpath)));
+    }
+
+    // 16.2. getListWebElements - Trả về list phần tử (dạng công khai)
+    public List<WebElement> getListWebElements(WebDriver driver, String xpath) {
+        waitForAllElementsVisible(driver, xpath);
+        return driver.findElements(getXpath(xpath));
+    }
+
+    // 16.3. isElementDisplayed - Check element có tồn tại mà không throw exception
+    public boolean isElementDisplayed(WebDriver driver, String xpath) {
+        try {
+            return driver.findElement(getXpath(xpath)).isDisplayed();
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            return false;
+        }
+    }
+
     // 17. waitForElementClickable - Chờ phần tử có thể click.
     public void waitForElementClickable(WebDriver driver, String xpath) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
@@ -150,15 +171,29 @@ public class BasePage {
     }
 
     // 19. highLightElement - Highlight phần tử bằng JS.
+//    public void highLightElement(WebDriver driver, String xpath) {
+//        WebElement el = getElement(driver, xpath);
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", el);
+//    }
     public void highLightElement(WebDriver driver, String xpath) {
         WebElement el = getElement(driver, xpath);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", el);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.border='3px solid red'; arguments[0].style.backgroundColor='lightyellow';", el);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ignored) {}
+        js.executeScript("arguments[0].style.border=''; arguments[0].style.backgroundColor='';", el);
     }
 
     // 20. highLightElement (params) - Highlight phần tử động.
     public void highLightElement(WebDriver driver, String xpath, String... params) {
         WebElement el = getDynamicElement(driver, xpath, params);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", el);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.border='3px solid red'; arguments[0].style.backgroundColor='lightyellow';", el);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ignored) {}
+        js.executeScript("arguments[0].style.border=''; arguments[0].style.backgroundColor='';", el);
     }
 
 //    // 21. sleepInSecond - Tạm dừng theo thời gian giây.
@@ -521,5 +556,69 @@ public class BasePage {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'});", el);
     }
 
-    // 71. switchToDefaultContent
+    // 71. switchToFrame - Chuyển sang iframe cụ thể.
+    public void switchToFrame(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
+        driver.switchTo().frame(getElement(driver, xpath));
+    }
+
+    // 71.1. switchToFrame (params) - Chuyển sang iframe động.
+    public void switchToFrame(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
+        driver.switchTo().frame(getDynamicElement(driver, xpath, params));
+    }
+
+    // 72. switchToDefaultContent - Quay lại nội dung chính.
+    public void switchToDefaultContent(WebDriver driver) {
+        driver.switchTo().defaultContent();
+    }
+
+    // 73. waitForPageLoaded - Chờ trang load hoàn tất (readyState = complete)
+    public void waitForPageLoaded(WebDriver driver) {
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT))
+                .until(webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+    }
+
+    // 74. isElementExist - Kiểm tra phần tử có tồn tại (dù ẩn hay hiển thị)
+    public boolean isElementExist(WebDriver driver, String xpath) {
+        try {
+            return !driver.findElements(getXpath(xpath)).isEmpty();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    // 75. waitForElementInvisible - Chờ phần tử biến mất khỏi DOM
+    public void waitForElementInvisible(WebDriver driver, String xpath) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(getXpath(xpath)));
+    }
+
+    // 76. highlightAndClick - Highlight và click
+    public void highlightAndClick(WebDriver driver, String xpath) {
+        WebElement el = getElement(driver, xpath);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='2px solid red';", el);
+        el.click();
+    }
+
+    // 77. scrollAndClick - Scroll và click
+    public void scrollAndClick(WebDriver driver, String xpath) {
+        WebElement el = getElement(driver, xpath);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", el);
+        el.click();
+    }
+
+    public void waitForElementVisible(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
+    }
+
+    // 78. isElementPresent
+    public boolean isElementPresent(WebDriver driver, String xpathLocator) {
+        try {
+            return driver.findElement(By.xpath(xpathLocator)).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
 }

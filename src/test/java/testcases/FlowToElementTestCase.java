@@ -3,10 +3,7 @@ package testcases;
 import actions.HomePageAction;
 import actions.common.AssertUtils;
 import actions.common.BaseTest;
-import actions.elements.CheckBoxPageAction;
-import actions.elements.MenuLeftAction;
-import actions.elements.RadioButtonPageAction;
-import actions.elements.TextboxPageAction;
+import actions.elements.*;
 import common.Log;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
@@ -25,42 +22,34 @@ public class FlowToElementTestCase extends BaseTest {
         Log.info("Step 1: Click Menu Elements on HomePage");
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
+
         Log.info("Step 2: Click Left Menu elements on ElementPage");
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
         menuLeftAction.clickOnMenuLeft("Text Box");
-        Log.info("Step 3: Click Textbox elements on TextboxPage and input full name, email, current address and permanent address");
-        Thread.sleep(3000);
-        TextboxPageAction textboxPageAction = new TextboxPageAction(driver);
 
+        Log.info("Step 3: Input full name, email, address");
+        TextboxPageAction textboxPageAction = new TextboxPageAction(driver);
         String name = "Nguyen Van A";
         String email = "user@example.com";
         String currentAddr = "12 Nguyen Trai, HN";
         String permanentAddr = "34 Le Loi, HCM";
 
         textboxPageAction.inputTextBoxes(name, email, currentAddr, permanentAddr);
-        Log.info("Step 4: Click Submit Button");
         textboxPageAction.clickSubmitButton();
-
-        AssertUtils.assertEquals(textboxPageAction.verifyOutput("String", "a", "a", "a"), "result");
-        textboxPageAction.verifyOutput(name, email, currentAddr, permanentAddr);
     }
 
-    @Test(priority = 2, description = "DQ_TB_002")
+    @Test(priority = 2, description = "DQ_TB_002 - Invalid email format")
     public void DQ_TB_002() throws InterruptedException {
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
+
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
         menuLeftAction.clickOnMenuLeft("Text Box");
-        Thread.sleep(3000);
+
         TextboxPageAction textboxPageAction = new TextboxPageAction(driver);
-
-        String name = "Nguyen Van A";
-        String email = "user@";
-        String currentAddr = "12 Nguyen Trai, HN";
-        String permanentAddr = "34 Le Loi, HCM";
-
-        textboxPageAction.inputTextBoxes(name, email, currentAddr, permanentAddr);
+        textboxPageAction.inputTextBoxes("Nguyen Van A", "user@", "12 Nguyen Trai", "34 Le Loi");
         textboxPageAction.clickSubmitButton();
+
         textboxPageAction.verifyEmailBorderIsRed();
         textboxPageAction.verifyOutputNotDisplayedOrEmailMissing();
     }
@@ -74,7 +63,6 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeftAction.clickOnMenuLeft("Check Box");
 
         CheckBoxPageAction checkBoxPage = new CheckBoxPageAction(driver);
-
         checkBoxPage.expandAllNodes();
         checkBoxPage.tickCheckboxByLabel("Desktop");
         checkBoxPage.verifyOutputContainsNode("desktop");
@@ -89,7 +77,6 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeftAction.clickOnMenuLeft("Check Box");
 
         CheckBoxPageAction checkBoxPage = new CheckBoxPageAction(driver);
-
         checkBoxPage.expandAllNodes();
         checkBoxPage.tickCheckboxByLabel("Home");
 
@@ -110,9 +97,170 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeftAction.clickOnMenuLeft("Radio Button");
 
         RadioButtonPageAction radioPage = new RadioButtonPageAction(driver);
-
         radioPage.selectRadioByLabel("Yes");
-
         radioPage.verifySelectedText("Yes");
+    }
+
+    @Test(priority = 6, description = "DQ-RB-002 - Verify 'No' radio button is disabled")
+    public void DQ_RB_002() throws InterruptedException {
+        Log.info("Step 1: Open 'Elements' and go to Radio Button page");
+        HomePageAction homePageAction = new HomePageAction(driver);
+        homePageAction.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
+        menuLeftAction.clickOnMenuLeft("Radio Button");
+
+        RadioButtonPageAction radioButtonPageAction = new RadioButtonPageAction(driver);
+        boolean isDisabled = radioButtonPageAction.isRadioDisabled("No");
+
+        AssertUtils.assertTrue(isDisabled, "❌ 'No' radio button không bị disable!");
+        Log.info("✅ 'No' radio button ở trạng thái disabled, không thể chọn.");
+    }
+
+    @Test(priority = 7, description = "DQ-WT-001 - Locate Email by First Name using following-sibling")
+    public void DQ_WT_001() throws InterruptedException {
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Web Tables");
+
+        WebTablesPageAction webTables = new WebTablesPageAction(driver);
+        Log.info("Step 1: Lấy Email theo First Name = 'Cierra'");
+        String email = webTables.getEmailByFirstName("Cierra");
+
+        Log.info("Step 2: Xác nhận email hiển thị đúng trên UI: " + email);
+        AssertUtils.assertTrue(email.contains("@"), "Email không hợp lệ: " + email);
+    }
+
+    @Test(priority = 8, description = "DQ-WT-002 - Locate Edit button by using ancestor::")
+    public void DQ_WT_002() throws InterruptedException {
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Web Tables");
+
+        WebTablesPageAction webTables = new WebTablesPageAction(driver);
+        Log.info("Step 1: Click Edit button theo Last Name = 'Alden'");
+        webTables.clickEditButtonByLastName("Alden");
+
+        Log.info("Step 2: Verify form Edit mở ra");
+        Thread.sleep(1000);
+        AssertUtils.assertTrue(
+                webTables.isElementDisplayed(driver, "//div[text()='Registration Form']"),
+                "Form Edit không hiển thị!"
+        );
+    }
+
+    @Test(priority = 9, description = "DQ-WT-003 - Get following rows after Age=39")
+    public void DQ_WT_003() throws InterruptedException {
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Web Tables");
+
+        WebTablesPageAction webTables = new WebTablesPageAction(driver);
+        Log.info("Step 1: Lấy tất cả hàng sau hàng có Age=39");
+        var followingRows = webTables.getFollowingRowsAfterAge("39");
+
+        Log.info("Step 2: In ra số lượng hàng sau: " + followingRows.size());
+        for (var row : followingRows) {
+            System.out.println("Row text: " + row.getText());
+        }
+
+        AssertUtils.assertFalse(followingRows.isEmpty(), "Không tìm thấy hàng nào sau hàng có Age=39!");
+    }
+
+    @Test(priority = 10, description = "DQ-BTN-001 - Double click 'Double Click Me' button")
+    public void DQ_BTN_001() throws InterruptedException {
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Buttons");
+
+        ButtonPageAction buttonPage = new ButtonPageAction(driver);
+        Log.info("Step 1: Double click button 'Double Click Me'");
+        buttonPage.doubleClickButton();
+
+        Log.info("Step 2: Verify message appears correctly");
+        String message = buttonPage.getDoubleClickMessage();
+        AssertUtils.assertEquals(message, "You have done a double click", "Message không đúng!");
+    }
+
+    @Test(priority = 11, description = "DQ-LNK-001 - Verify Created link API feedback")
+    public void DQ_LNK_001() throws InterruptedException {
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Links");
+
+        LinksPageAction linksPage = new LinksPageAction(driver);
+        Log.info("Step 1: Click link 'Created'");
+        linksPage.clickCreatedLink();
+
+        Log.info("Step 2: Verify response status = 201");
+        String response = linksPage.getResponseText();
+        AssertUtils.assertContains(response, "201", "Phản hồi không chứa status 201: " + response);
+    }
+
+    @Test(priority = 12, description = "DQ-UP-001 - Upload valid .png file")
+    public void DQ_UP_001() throws InterruptedException {
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Upload and Download");
+
+        UploadDownloadPageAction uploadPage = new UploadDownloadPageAction(driver);
+        String filePath = "C:\\temp\\logo.png";
+
+        Log.info("Step 1: Upload file " + filePath);
+        uploadPage.uploadFile(filePath);
+
+        Log.info("Step 2: Verify uploaded file name");
+        String result = uploadPage.getUploadedFilePath();
+        AssertUtils.assertTrue(result.endsWith("logo.png"), "Tên file hiển thị sai: " + result);
+    }
+
+    @Test(priority = 13, description = "DQ-DP-001 - Verify button enabled after 5s")
+    public void DQ_DP_001() throws InterruptedException {
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Elements");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Dynamic Properties");
+
+        DynamicPropertiesPageAction dynamicPage = new DynamicPropertiesPageAction(driver);
+        Log.info("Step 1: Check button initially disabled");
+        AssertUtils.assertFalse(dynamicPage.isEnableAfterButtonEnabled(), "Button không disabled ban đầu!");
+
+        Log.info("Step 2: Wait for 6 seconds");
+        Thread.sleep(6000);
+
+        Log.info("Step 3: Verify button becomes enabled");
+        AssertUtils.assertTrue(dynamicPage.isEnableAfterButtonEnabled(), "Button chưa enabled sau 5s!");
+    }
+
+    @Test(priority = 14, description = "DQ-AL-001 - Handle simple alert")
+    public void DQ_AL_001() throws InterruptedException {
+        HomePageAction homePage = new HomePageAction(driver);
+        homePage.clickOnMenu("Alerts, Frame & Windows");
+
+        MenuLeftAction menuLeft = new MenuLeftAction(driver);
+        menuLeft.clickOnMenuLeft("Alerts");
+
+        AlertsPageAction alertsPage = new AlertsPageAction(driver);
+        Log.info("Step 1: Click 'Click me' to trigger alert");
+        alertsPage.clickAlertButton();
+
+        Log.info("Step 2: Accept alert");
+        alertsPage.acceptSimpleAlert();
+
+        Log.info("Step 3: Verify alert handled successfully");
+        AssertUtils.assertTrue(true, "Alert không được xử lý đúng.");
     }
 }

@@ -12,6 +12,7 @@ public class MenuLeftAction extends BasePage {
     }
 
     public void clickOnMenuLeft(String menu) {
+        scrollIntoView(driver, CommonInterface.ELEMENT_MENU, menu);
         highLightElement(driver, CommonInterface.ELEMENT_MENU, menu);
         clickToElement(driver, CommonInterface.ELEMENT_MENU, menu);
     }
