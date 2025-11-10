@@ -5,7 +5,6 @@ import actions.common.AssertUtils;
 import actions.common.BaseTest;
 import actions.elements.*;
 import common.Log;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,19 +17,17 @@ public class FlowToElementTestCase extends BaseTest {
         driver = getBrowserDriver("chrome", "https://demoqa.com/");
     }
 
-    @Test(priority = 1, description = "DQ-TB-001")
+    @Test(priority = 1, description = "DQ-TB-001 - Verify valid Text Box input")
     public void DQ_TB_001() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        Log.info("Step 1: Click Menu Elements on HomePage");
+        Log.info("Step 1: Click 'Elements' menu on Home Page");
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
 
-        Log.info("Step 2: Click Left Menu elements on ElementPage");
+        Log.info("Step 2: Click 'Text Box' in the left menu");
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
         menuLeftAction.clickOnMenuLeft("Text Box");
 
-        Log.info("Step 3: Input full name, email, address");
+        Log.info("Step 3: Input full name, email, and addresses");
         TextboxPageAction textboxPageAction = new TextboxPageAction(driver);
         String name = "Nguyen Van A";
         String email = "user@example.com";
@@ -41,10 +38,8 @@ public class FlowToElementTestCase extends BaseTest {
         textboxPageAction.clickSubmitButton();
     }
 
-    @Test(priority = 2, description = "DQ_TB_002 - Invalid email format")
+    @Test(priority = 2, description = "DQ-TB-002 - Verify invalid email format handling")
     public void DQ_TB_002() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
 
@@ -59,10 +54,8 @@ public class FlowToElementTestCase extends BaseTest {
         textboxPageAction.verifyOutputNotDisplayedOrEmailMissing();
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, description = "DQ-CB-001 - Verify Check Box selection by label")
     public void DQ_CB_001() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
 
@@ -75,10 +68,8 @@ public class FlowToElementTestCase extends BaseTest {
         checkBoxPage.verifyOutputContainsNode("desktop");
     }
 
-    @Test(priority = 4)
+    @Test(priority = 4, description = "DQ-CB-002 - Verify all subnodes are selected when choosing 'Home'")
     public void DQ_CB_002() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
 
@@ -97,10 +88,8 @@ public class FlowToElementTestCase extends BaseTest {
         );
     }
 
-    @Test(priority = 5)
+    @Test(priority = 5, description = "DQ-RB-001 - Verify 'Yes' radio button selection")
     public void DQ_RB_001() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
 
@@ -114,9 +103,7 @@ public class FlowToElementTestCase extends BaseTest {
 
     @Test(priority = 6, description = "DQ-RB-002 - Verify 'No' radio button is disabled")
     public void DQ_RB_002() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        Log.info("Step 1: Open 'Elements' and go to Radio Button page");
+        Log.info("Step 1: Open 'Elements' > 'Radio Button'");
         HomePageAction homePageAction = new HomePageAction(driver);
         homePageAction.clickOnMenu("Elements");
 
@@ -126,8 +113,8 @@ public class FlowToElementTestCase extends BaseTest {
         RadioButtonPageAction radioButtonPageAction = new RadioButtonPageAction(driver);
         boolean isDisabled = radioButtonPageAction.isRadioDisabled("No");
 
-        AssertUtils.assertTrue(isDisabled, "❌ 'No' radio button không bị disable!");
-        Log.info("✅ 'No' radio button ở trạng thái disabled, không thể chọn.");
+        AssertUtils.assertTrue(isDisabled, "❌ 'No' radio button is not disabled!");
+        Log.info("✅ 'No' radio button is disabled as expected.");
     }
 
     @Test(priority = 7, description = "DQ-WT-001 - Locate Email by First Name using following-sibling")
@@ -139,14 +126,14 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeft.clickOnMenuLeft("Web Tables");
 
         WebTablesPageAction webTables = new WebTablesPageAction(driver);
-        Log.info("Step 1: Lấy Email theo First Name = 'Cierra'");
+        Log.info("Step 1: Get email for First Name = 'Cierra'");
         String email = webTables.getEmailByFirstName("Cierra");
 
-        Log.info("Step 2: Xác nhận email hiển thị đúng trên UI: " + email);
-        AssertUtils.assertTrue(email.contains("@"), "Email không hợp lệ: " + email);
+        Log.info("Step 2: Verify email is displayed correctly: " + email);
+        AssertUtils.assertTrue(email.contains("@"), "Invalid email: " + email);
     }
 
-    @Test(priority = 8, description = "DQ-WT-002 - Locate Edit button by using ancestor::")
+    @Test(priority = 8, description = "DQ-WT-002 - Locate Edit button using ancestor::")
     public void DQ_WT_002() throws InterruptedException {
         HomePageAction homePage = new HomePageAction(driver);
         homePage.clickOnMenu("Elements");
@@ -155,15 +142,15 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeft.clickOnMenuLeft("Web Tables");
 
         WebTablesPageAction webTables = new WebTablesPageAction(driver);
-        Log.info("Step 1: Click Edit button theo Last Name = 'Alden'");
+        Log.info("Step 1: Click Edit button for Last Name = 'Alden'");
         webTables.clickEditButtonByLastName("Alden");
 
-        Log.info("Step 2: Verify form Edit mở ra");
+        Log.info("Step 2: Verify Edit form is displayed");
         Thread.sleep(1000);
-        AssertUtils.assertTrue(webTables.isEditFormDisplayed(), "Form Edit không hiển thị!");
+        AssertUtils.assertTrue(webTables.isEditFormDisplayed(), "Edit form is not displayed!");
     }
 
-    @Test(priority = 9, description = "DQ-WT-003 - Get following rows after Age=39")
+    @Test(priority = 9, description = "DQ-WT-003 - Get rows following Age = 39")
     public void DQ_WT_003() throws InterruptedException {
         HomePageAction homePage = new HomePageAction(driver);
         homePage.clickOnMenu("Elements");
@@ -172,15 +159,15 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeft.clickOnMenuLeft("Web Tables");
 
         WebTablesPageAction webTables = new WebTablesPageAction(driver);
-        Log.info("Step 1: Lấy tất cả hàng sau hàng có Age=39");
+        Log.info("Step 1: Retrieve all rows after Age = 39");
         var followingRows = webTables.getFollowingRowsAfterAge("39");
 
-        Log.info("Step 2: In ra số lượng hàng sau: " + followingRows.size());
+        Log.info("Step 2: Print number of following rows: " + followingRows.size());
         for (var row : followingRows) {
             System.out.println("Row text: " + row.getText());
         }
 
-        AssertUtils.assertFalse(followingRows.isEmpty(), "Không tìm thấy hàng nào sau hàng có Age=39!");
+        AssertUtils.assertFalse(followingRows.isEmpty(), "No rows found after Age = 39!");
     }
 
     @Test(priority = 10, description = "DQ-BTN-001 - Double click 'Double Click Me' button")
@@ -192,15 +179,15 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeft.clickOnMenuLeft("Buttons");
 
         ButtonPageAction buttonPage = new ButtonPageAction(driver);
-        Log.info("Step 1: Double click button 'Double Click Me'");
+        Log.info("Step 1: Double click 'Double Click Me' button");
         buttonPage.doubleClickButton();
 
         Log.info("Step 2: Verify message appears correctly");
         String message = buttonPage.getDoubleClickMessage();
-        AssertUtils.assertEquals(message, "You have done a double click", "Message không đúng!");
+        AssertUtils.assertEquals(message, "You have done a double click", "Incorrect double-click message!");
     }
 
-    @Test(priority = 11, description = "DQ-LNK-001 - Verify Created link API feedback")
+    @Test(priority = 11, description = "DQ-LNK-001 - Verify 'Created' link API response")
     public void DQ_LNK_001() throws InterruptedException {
         HomePageAction homePage = new HomePageAction(driver);
         homePage.clickOnMenu("Elements");
@@ -209,15 +196,15 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeft.clickOnMenuLeft("Links");
 
         LinksPageAction linksPage = new LinksPageAction(driver);
-        Log.info("Step 1: Click link 'Created'");
+        Log.info("Step 1: Click 'Created' link");
         linksPage.clickCreatedLink();
 
         Log.info("Step 2: Verify response status = 201");
         String response = linksPage.getResponseText();
-        AssertUtils.assertContains(response, "201", "Phản hồi không chứa status 201: " + response);
+        AssertUtils.assertContains(response, "201", "Response does not contain status 201: " + response);
     }
 
-    @Test(priority = 12, description = "DQ-UP-001 - Upload valid .png file")
+    @Test(priority = 12, description = "DQ-UP-001 - Upload a valid .png file")
     public void DQ_UP_001() throws InterruptedException {
         HomePageAction homePage = new HomePageAction(driver);
         homePage.clickOnMenu("Elements");
@@ -233,10 +220,10 @@ public class FlowToElementTestCase extends BaseTest {
 
         Log.info("Step 2: Verify uploaded file name");
         String result = uploadPage.getUploadedFilePath();
-        AssertUtils.assertTrue(result.endsWith("logo.png"), "Tên file hiển thị sai: " + result);
+        AssertUtils.assertTrue(result.endsWith("logo.png"), "Incorrect file name displayed: " + result);
     }
 
-    @Test(priority = 13, description = "DQ-DP-001 - Verify button enabled after 5s")
+    @Test(priority = 13, description = "DQ-DP-001 - Verify button becomes enabled after 5 seconds")
     public void DQ_DP_001() throws InterruptedException {
         HomePageAction homePage = new HomePageAction(driver);
         homePage.clickOnMenu("Elements");
@@ -245,14 +232,14 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeft.clickOnMenuLeft("Dynamic Properties");
 
         DynamicPropertiesPageAction dynamicPage = new DynamicPropertiesPageAction(driver);
-        Log.info("Step 1: Check button initially disabled");
-        AssertUtils.assertFalse(dynamicPage.isEnableAfterButtonEnabled(), "Button không disabled ban đầu!");
+        Log.info("Step 1: Verify button is initially disabled");
+        AssertUtils.assertFalse(dynamicPage.isEnableAfterButtonEnabled(), "Button should be disabled initially!");
 
         Log.info("Step 2: Wait for 6 seconds");
         Thread.sleep(6000);
 
         Log.info("Step 3: Verify button becomes enabled");
-        AssertUtils.assertTrue(dynamicPage.isEnableAfterButtonEnabled(), "Button chưa enabled sau 5s!");
+        AssertUtils.assertTrue(dynamicPage.isEnableAfterButtonEnabled(), "Button did not become enabled after 5s!");
     }
 
     @Test(priority = 14, description = "DQ-AL-001 - Handle simple alert")
@@ -267,16 +254,16 @@ public class FlowToElementTestCase extends BaseTest {
         Log.info("Step 1: Click 'Click me' to trigger alert");
         alertsPage.clickAlertButton();
 
-        Log.info("Step 2: Accept alert");
+        Log.info("Step 2: Accept the alert");
         alertsPage.acceptSimpleAlert();
 
         Log.info("Step 3: Verify alert handled successfully");
-        AssertUtils.assertTrue(true, "Alert không được xử lý đúng.");
+        AssertUtils.assertTrue(true, "Alert was not handled correctly.");
     }
 
-    @Test(priority = 15, description = "DQ-FM-001 - Điền form hợp lệ tối thiểu và submit, verify modal hiển thị")
+    @Test(priority = 15, description = "DQ-FM-001 - Fill valid form and verify modal is displayed")
     public void DQ_FM_001() throws InterruptedException {
-        Log.info("Step 1: Vào menu Forms > Practice Form");
+        Log.info("Step 1: Navigate to Forms > Practice Form");
         HomePageAction homePage = new HomePageAction(driver);
         homePage.clickOnMenu("Forms");
 
@@ -284,21 +271,21 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeft.clickOnMenuLeft("Practice Form");
 
         PracticeFormPageAction formPage = new PracticeFormPageAction(driver);
-        Log.info("Step 2: Điền thông tin hợp lệ");
+        Log.info("Step 2: Fill in valid information");
         formPage.fillForm("Minh", "Le", "minh@example.com", "Male", "0987654321");
 
-        Log.info("Step 3: Submit form");
+        Log.info("Step 3: Submit the form");
         formPage.clickSubmit();
 
-        Log.info("Step 4: Verify modal hiển thị và có dữ liệu nhập vào");
-        AssertUtils.assertTrue(formPage.isModalDisplayed(), "❌ Modal không hiển thị sau khi submit!");
-        AssertUtils.assertContains(formPage.getModalText(), "Minh", "❌ Modal không chứa tên đã nhập!");
-        AssertUtils.assertContains(formPage.getModalText(), "minh@example.com", "❌ Modal không chứa email!");
+        Log.info("Step 4: Verify modal is displayed with submitted data");
+        AssertUtils.assertTrue(formPage.isModalDisplayed(), "❌ Modal is not displayed after submission!");
+        AssertUtils.assertContains(formPage.getModalText(), "Minh", "❌ Modal does not contain the entered name!");
+        AssertUtils.assertContains(formPage.getModalText(), "minh@example.com", "❌ Modal does not contain the entered email!");
     }
 
-    @Test(priority = 16, description = "DQ-DPICK-001 - Chọn ngày đầu tháng và cuối tháng (BVA)")
+    @Test(priority = 16, description = "DQ-DPICK-001 - Select first and last day of the month (BVA)")
     public void DQ_DPICK_001() throws InterruptedException {
-        Log.info("Step 1: Vào menu Widgets > Date Picker");
+        Log.info("Step 1: Navigate to Widgets > Date Picker");
         HomePageAction homePage = new HomePageAction(driver);
         homePage.clickOnMenu("Widgets");
 
@@ -306,18 +293,17 @@ public class FlowToElementTestCase extends BaseTest {
         menuLeft.clickOnMenuLeft("Date Picker");
 
         DatePickerPageAction datePicker = new DatePickerPageAction(driver);
-        Log.info("Step 2: Chọn ngày đầu tháng");
+        Log.info("Step 2: Select first day of the month");
         datePicker.selectDay(1);
         String firstDate = datePicker.getSelectedDate();
-        Log.info("Ngày đầu tháng: " + firstDate);
+        Log.info("First day of month: " + firstDate);
 
-        Log.info("Step 3: Chọn ngày cuối tháng (nếu có)");
+        Log.info("Step 3: Select last day of the month");
         datePicker.selectDay(31);
         String lastDate = datePicker.getSelectedDate();
-        Log.info("Ngày cuối tháng: " + lastDate);
+        Log.info("Last day of month: " + lastDate);
 
-        Log.info("Step 4: Verify giá trị cập nhật chính xác");
-        AssertUtils.assertNotEquals(firstDate, lastDate, "❌ Ngày không thay đổi khi chọn lại!");
+        Log.info("Step 4: Verify values are updated correctly");
+        AssertUtils.assertNotEquals(firstDate, lastDate, "❌ Date did not change after re-selection!");
     }
-
 }
