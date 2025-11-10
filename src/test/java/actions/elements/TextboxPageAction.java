@@ -37,17 +37,16 @@ public class TextboxPageAction extends BasePage {
     public String verifyOutput(String expectedName, String expectedEmail, String expectedCurrentAddr, String expectedPermanentAddr) {
         waitForElementIsVisible(driver, TextBoxPageInterface.OUTPUT_SECTION);
 
-
         String actualName = getTextElement(driver, TextBoxPageInterface.OUTPUT_NAME).replace("Name:", "").trim();
         String actualEmail = getTextElement(driver, TextBoxPageInterface.OUTPUT_EMAIL).replace("Email:", "").trim();
         String actualCurrent = getTextElement(driver, TextBoxPageInterface.OUTPUT_CURRENT_ADDRESS).replace("Current Address :", "").trim();
         String actualPermanent = getTextElement(driver, TextBoxPageInterface.OUTPUT_PERMANENT_ADDRESS).replace("Permananet Address :", "").trim();
 
-        Assert.assertEquals(actualName, expectedName, "Nguyen Van A");
-        Assert.assertTrue(actualEmail.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$"), "❌ Email không đúng định dạng!");
-        Assert.assertEquals(actualEmail, expectedEmail, "❌ Email không đúng!");
-        Assert.assertEquals(actualCurrent, expectedCurrentAddr, "❌ Current Address không đúng!");
-        Assert.assertEquals(actualPermanent, expectedPermanentAddr, "❌ Permanent Address không đúng!");
+        Assert.assertEquals(actualName, expectedName, "Name does not match the expected value!");
+        Assert.assertTrue(actualEmail.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$"), "Email format is invalid!");
+        Assert.assertEquals(actualEmail, expectedEmail, "Email does not match the expected value!");
+        Assert.assertEquals(actualCurrent, expectedCurrentAddr, "Current Address does not match the expected value!");
+        Assert.assertEquals(actualPermanent, expectedPermanentAddr, "Permanent Address does not match the expected value!");
         return actualName;
     }
 
@@ -57,7 +56,7 @@ public class TextboxPageAction extends BasePage {
         String borderColor = emailInput.getCssValue("border-color");
         System.out.println("Email border color: " + borderColor);
         Assert.assertTrue(borderColor.contains("255, 0, 0"),
-                "❌ Border email không có màu đỏ như mong đợi!");
+                "Email border is not red as expected!");
     }
 
     public void verifyOutputNotDisplayedOrEmailMissing() {
@@ -65,10 +64,10 @@ public class TextboxPageAction extends BasePage {
         boolean isOutputVisible = isElementPresent(driver, TextBoxPageInterface.OUTPUT_SECTION);
 
         if (!isOutputVisible) {
-            System.out.println("✅ Output section không hiển thị — PASSED");
+            System.out.println("Output section is not displayed — PASSED");
         } else {
             boolean emailLineVisible = isElementPresent(driver, TextBoxPageInterface.OUTPUT_EMAIL);
-            Assert.assertFalse(emailLineVisible, "❌ Output hiển thị dòng Email dù email không hợp lệ!");
+            Assert.assertFalse(emailLineVisible, "Output shows Email line even though the email is invalid!");
         }
     }
 }
