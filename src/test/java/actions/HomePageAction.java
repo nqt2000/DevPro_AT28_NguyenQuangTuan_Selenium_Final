@@ -12,6 +12,7 @@ public class HomePageAction extends BasePage {
     }
 
     public void clickOnMenu(String menu) throws InterruptedException {
+        scrollIntoView(driver, CommonInterface.HOME_PAGE_MENU, menu);
         highLightElement(driver, CommonInterface.HOME_PAGE_MENU, menu);
         Thread.sleep(2000);
         clickToElement(driver, CommonInterface.HOME_PAGE_MENU, menu);
