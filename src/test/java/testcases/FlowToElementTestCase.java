@@ -24,7 +24,6 @@ public class FlowToElementTestCase extends BaseTest {
 
         Log.info("Step 1: Click Menu Elements on HomePage");
         HomePageAction homePageAction = new HomePageAction(driver);
-        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         Log.info("Step 2: Click Left Menu elements on ElementPage");
@@ -47,7 +46,6 @@ public class FlowToElementTestCase extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         HomePageAction homePageAction = new HomePageAction(driver);
-        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
@@ -66,7 +64,6 @@ public class FlowToElementTestCase extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         HomePageAction homePageAction = new HomePageAction(driver);
-        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
@@ -83,7 +80,6 @@ public class FlowToElementTestCase extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         HomePageAction homePageAction = new HomePageAction(driver);
-        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
@@ -106,7 +102,6 @@ public class FlowToElementTestCase extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         HomePageAction homePageAction = new HomePageAction(driver);
-        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
@@ -123,7 +118,6 @@ public class FlowToElementTestCase extends BaseTest {
 
         Log.info("Step 1: Open 'Elements' and go to Radio Button page");
         HomePageAction homePageAction = new HomePageAction(driver);
-        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
