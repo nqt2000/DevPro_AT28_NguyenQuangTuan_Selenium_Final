@@ -125,17 +125,54 @@ public class BasePage {
     // 3. Wait & Highlight
     // ============================
 
-    // 15. waitForElementIsVisible - Chờ phần tử hiển thị.
+//    // 15. waitForElementIsVisible - Chờ phần tử hiển thị.
+//    public void waitForElementIsVisible(WebDriver driver, String xpath) {
+//        wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
+//        wait.until(ExpectedConditions.visibilityOf(getElement(driver, xpath)));
+//    }
+//
+//    // 16. waitForElementIsVisible (params) - Chờ phần tử hiển thị (động).
+//    public void waitForElementIsVisible(WebDriver driver, String xpath, String... params) {
+//        wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
+//        wait.until(ExpectedConditions.visibilityOf(getDynamicElement(driver, xpath, params)));
+//    }
+
+    // 15. waitForElementIsVisible - Wait for element to be visible.
     public void waitForElementIsVisible(WebDriver driver, String xpath) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
-        wait.until(ExpectedConditions.visibilityOf(getElement(driver, xpath)));
+        try {
+            wait.until(ExpectedConditions.visibilityOf(getElement(driver, xpath)));
+        } catch (TimeoutException | NoSuchElementException e) {
+            System.out.println("[WARN] Element not found within timeout. Refreshing page and retrying...");
+            driver.navigate().refresh();
+
+            try {
+                Thread.sleep(3000); // Wait for page to reload
+            } catch (InterruptedException ignored) {}
+
+            wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
+            wait.until(ExpectedConditions.visibilityOf(getElement(driver, xpath)));
+        }
     }
 
-    // 16. waitForElementIsVisible (params) - Chờ phần tử hiển thị (động).
+    // 16. waitForElementIsVisible (params) - Wait for dynamic element to be visible.
     public void waitForElementIsVisible(WebDriver driver, String xpath, String... params) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
-        wait.until(ExpectedConditions.visibilityOf(getDynamicElement(driver, xpath, params)));
+        try {
+            wait.until(ExpectedConditions.visibilityOf(getDynamicElement(driver, xpath, params)));
+        } catch (TimeoutException | NoSuchElementException e) {
+            System.out.println("[WARN] Dynamic element not found within timeout. Refreshing page and retrying...");
+            driver.navigate().refresh();
+
+            try {
+                Thread.sleep(3000); // Wait for page to reload
+            } catch (InterruptedException ignored) {}
+
+            wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
+            wait.until(ExpectedConditions.visibilityOf(getDynamicElement(driver, xpath, params)));
+        }
     }
+
 
     // 16.1. waitForAllElementsVisible - Chờ tất cả phần tử hiển thị
     public void waitForAllElementsVisible(WebDriver driver, String xpath) {
