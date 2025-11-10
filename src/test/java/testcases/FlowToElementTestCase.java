@@ -5,12 +5,14 @@ import actions.common.AssertUtils;
 import actions.common.BaseTest;
 import actions.elements.*;
 import common.Log;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class FlowToElementTestCase extends BaseTest {
     WebDriver driver;
+    JavascriptExecutor js;
 
     @BeforeMethod
     public void init() {
@@ -21,6 +23,7 @@ public class FlowToElementTestCase extends BaseTest {
     public void DQ_TB_001() throws InterruptedException {
         Log.info("Step 1: Click Menu Elements on HomePage");
         HomePageAction homePageAction = new HomePageAction(driver);
+        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         Log.info("Step 2: Click Left Menu elements on ElementPage");
@@ -41,6 +44,7 @@ public class FlowToElementTestCase extends BaseTest {
     @Test(priority = 2, description = "DQ_TB_002 - Invalid email format")
     public void DQ_TB_002() throws InterruptedException {
         HomePageAction homePageAction = new HomePageAction(driver);
+        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
@@ -57,6 +61,7 @@ public class FlowToElementTestCase extends BaseTest {
     @Test(priority = 3)
     public void DQ_CB_001() throws InterruptedException {
         HomePageAction homePageAction = new HomePageAction(driver);
+        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
@@ -71,6 +76,7 @@ public class FlowToElementTestCase extends BaseTest {
     @Test(priority = 4)
     public void DQ_CB_002() throws InterruptedException {
         HomePageAction homePageAction = new HomePageAction(driver);
+        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
@@ -91,6 +97,7 @@ public class FlowToElementTestCase extends BaseTest {
     @Test(priority = 5)
     public void DQ_RB_001() throws InterruptedException {
         HomePageAction homePageAction = new HomePageAction(driver);
+        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
@@ -105,6 +112,7 @@ public class FlowToElementTestCase extends BaseTest {
     public void DQ_RB_002() throws InterruptedException {
         Log.info("Step 1: Open 'Elements' and go to Radio Button page");
         HomePageAction homePageAction = new HomePageAction(driver);
+        js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
 
         MenuLeftAction menuLeftAction = new MenuLeftAction(driver);
