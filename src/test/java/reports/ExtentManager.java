@@ -23,7 +23,7 @@ public class ExtentManager {
             // ===========================
             // 🎨 GIAO DIỆN & GIAO DIỆN NÂNG CAO
             // ===========================
-            spark.config().setTheme(Theme.DARK);                          // Giao diện tối
+            spark.config().setTheme(Theme.DARK);                           // Giao diện tối
             spark.config().setDocumentTitle("Automation Report");          // Tiêu đề tab trình duyệt
             spark.config().setReportName("Selenium + TestNG UI Report");   // Tiêu đề chính
             spark.config().setEncoding("UTF-8");                           // Hỗ trợ tiếng Việt

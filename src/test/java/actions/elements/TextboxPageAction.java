@@ -64,7 +64,7 @@ public class TextboxPageAction extends BasePage {
         boolean isOutputVisible = isElementPresent(driver, TextBoxPageInterface.OUTPUT_SECTION);
 
         if (!isOutputVisible) {
-            System.out.println("Output section is not displayed — PASSED");
+            System.out.println("Output section is not displayed! PASSED");
         } else {
             boolean emailLineVisible = isElementPresent(driver, TextBoxPageInterface.OUTPUT_EMAIL);
             Assert.assertFalse(emailLineVisible, "Output shows Email line even though the email is invalid!");

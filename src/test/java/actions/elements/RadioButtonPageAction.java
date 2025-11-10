@@ -14,6 +14,7 @@ public class RadioButtonPageAction extends BasePage {
         this.driver = driver;
     }
 
+    // Select radio button by its label
     public void selectRadioByLabel(String label) throws InterruptedException {
         String xpath = String.format(RadioButtonInterface.RADIO_BUTTON_BY_LABEL, label);
         Thread.sleep(2000);
@@ -21,14 +22,16 @@ public class RadioButtonPageAction extends BasePage {
         Thread.sleep(2000);
     }
 
+    // Verify the displayed text after selecting a radio button
     public void verifySelectedText(String expectedText) {
         waitForElementIsVisible(driver, RadioButtonInterface.OUTPUT_TEXT);
         String actualText = getTextElement(driver, RadioButtonInterface.OUTPUT_TEXT);
-        System.out.println("Output hiển thị: " + actualText);
+        System.out.println("Output displayed: " + actualText);
         Assert.assertEquals(actualText.trim(), expectedText.trim(),
-                "❌ Kết quả hiển thị không đúng!");
+                "Displayed result is incorrect!");
     }
 
+    // Check if a radio button is disabled
     public boolean isRadioDisabled(String label) {
         String xpath = String.format(RadioButtonInterface.RADIO_INPUT_BY_LABEL, label);
         WebElement input = driver.findElement(By.xpath(xpath));
