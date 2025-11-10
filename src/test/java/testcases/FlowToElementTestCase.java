@@ -21,6 +21,8 @@ public class FlowToElementTestCase extends BaseTest {
 
     @Test(priority = 1, description = "DQ-TB-001")
     public void DQ_TB_001() throws InterruptedException {
+        js = (JavascriptExecutor) driver;
+
         Log.info("Step 1: Click Menu Elements on HomePage");
         HomePageAction homePageAction = new HomePageAction(driver);
         js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
@@ -43,6 +45,8 @@ public class FlowToElementTestCase extends BaseTest {
 
     @Test(priority = 2, description = "DQ_TB_002 - Invalid email format")
     public void DQ_TB_002() throws InterruptedException {
+        js = (JavascriptExecutor) driver;
+
         HomePageAction homePageAction = new HomePageAction(driver);
         js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
@@ -60,6 +64,8 @@ public class FlowToElementTestCase extends BaseTest {
 
     @Test(priority = 3)
     public void DQ_CB_001() throws InterruptedException {
+        js = (JavascriptExecutor) driver;
+
         HomePageAction homePageAction = new HomePageAction(driver);
         js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
@@ -75,6 +81,8 @@ public class FlowToElementTestCase extends BaseTest {
 
     @Test(priority = 4)
     public void DQ_CB_002() throws InterruptedException {
+        js = (JavascriptExecutor) driver;
+
         HomePageAction homePageAction = new HomePageAction(driver);
         js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
@@ -96,6 +104,8 @@ public class FlowToElementTestCase extends BaseTest {
 
     @Test(priority = 5)
     public void DQ_RB_001() throws InterruptedException {
+        js = (JavascriptExecutor) driver;
+
         HomePageAction homePageAction = new HomePageAction(driver);
         js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
         homePageAction.clickOnMenu("Elements");
@@ -110,6 +120,8 @@ public class FlowToElementTestCase extends BaseTest {
 
     @Test(priority = 6, description = "DQ-RB-002 - Verify 'No' radio button is disabled")
     public void DQ_RB_002() throws InterruptedException {
+        js = (JavascriptExecutor) driver;
+
         Log.info("Step 1: Open 'Elements' and go to Radio Button page");
         HomePageAction homePageAction = new HomePageAction(driver);
         js.executeScript("document.getElementById('adplus-anchor').style.display='none';");
