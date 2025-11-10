@@ -71,8 +71,8 @@ public class BasePage {
 
     // 9. clickToElement (params) - Click vào phần tử động.
     public void clickToElement(WebDriver driver, String xpath, String... params) {
-        scrollToElement(driver, xpath);
         waitForElementClickable(driver, xpath, params);
+        scrollToElement(driver, xpath);
         getDynamicElement(driver, xpath, params).click();
     }
 
