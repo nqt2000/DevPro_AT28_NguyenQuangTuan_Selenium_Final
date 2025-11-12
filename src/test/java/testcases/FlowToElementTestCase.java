@@ -114,7 +114,7 @@ public class FlowToElementTestCase extends BaseTest {
         boolean isDisabled = radioButtonPageAction.isRadioDisabled("No");
 
         AssertUtils.assertTrue(isDisabled, "❌ 'No' radio button is not disabled!");
-        Log.info("✅ 'No' radio button is disabled as expected.");
+        Log.info("'No' radio button is disabled as expected.");
     }
 
     @Test(priority = 7, description = "DQ-WT-001 - Locate Email by First Name using following-sibling")
@@ -278,9 +278,9 @@ public class FlowToElementTestCase extends BaseTest {
         formPage.clickSubmit();
 
         Log.info("Step 4: Verify modal is displayed with submitted data");
-        AssertUtils.assertTrue(formPage.isModalDisplayed(), "❌ Modal is not displayed after submission!");
-        AssertUtils.assertContains(formPage.getModalText(), "Minh", "❌ Modal does not contain the entered name!");
-        AssertUtils.assertContains(formPage.getModalText(), "minh@example.com", "❌ Modal does not contain the entered email!");
+        AssertUtils.assertTrue(formPage.isModalDisplayed(), "Modal is not displayed after submission!");
+        AssertUtils.assertContains(formPage.getModalText(), "Minh", "Modal does not contain the entered name!");
+        AssertUtils.assertContains(formPage.getModalText(), "minh@example.com", "Modal does not contain the entered email!");
     }
 
     @Test(priority = 16, description = "DQ-DPICK-001 - Select first and last day of the month (BVA)")
@@ -304,6 +304,6 @@ public class FlowToElementTestCase extends BaseTest {
         Log.info("Last day of month: " + lastDate);
 
         Log.info("Step 4: Verify values are updated correctly");
-        AssertUtils.assertNotEquals(firstDate, lastDate, "❌ Date did not change after re-selection!");
+        AssertUtils.assertNotEquals(firstDate, lastDate, "Date did not change after re-selection!");
     }
 }
