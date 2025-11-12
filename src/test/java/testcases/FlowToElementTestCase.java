@@ -113,7 +113,7 @@ public class FlowToElementTestCase extends BaseTest {
         RadioButtonPageAction radioButtonPageAction = new RadioButtonPageAction(driver);
         boolean isDisabled = radioButtonPageAction.isRadioDisabled("No");
 
-        AssertUtils.assertTrue(isDisabled, "❌ 'No' radio button is not disabled!");
+        AssertUtils.assertTrue(isDisabled, "'No' radio button is not disabled!");
         Log.info("'No' radio button is disabled as expected.");
     }
 
@@ -164,7 +164,7 @@ public class FlowToElementTestCase extends BaseTest {
 
         Log.info("Step 2: Print number of following rows: " + followingRows.size());
         for (var row : followingRows) {
-            System.out.println("Row text: " + row.getText());
+            System.out.print("Row text: " + row.getText() + "/n");
         }
 
         AssertUtils.assertFalse(followingRows.isEmpty(), "No rows found after Age = 39!");
